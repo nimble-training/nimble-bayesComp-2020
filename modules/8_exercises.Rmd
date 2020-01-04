@@ -1,0 +1,28 @@
+---
+title: "Exercises: MCMC and user-defined distributions"
+subtitle: "BayesComp 2020 short course"
+author: "NIMBLE Development Team"
+output:
+  html_document:
+    code_folding: show
+---
+
+Please work on one of the exercises from either of the following two slides.
+
+# Exercises: Model building and MCMC 
+
+ 1. Set up the model code and run an MCMC on a model of interest to you.
+
+ 2. Set up block samplers on each pair of hyperparameters in the marginalized version of the litters model. How does mixing compare to the results when not blocking?
+
+# Exercises: User-defined Distributions 
+
+ 3. Write a user-defined zero-inflated Poisson distribution and check that you can use it in a model. For a solution to this problem, please see [this example on our webpage](https://r-nimble.org/nimbleExamples/zero_inflated_poisson.html).
+
+ 4.  Write an "vectorized beta-binomial" distribution that can be used for a vector of $N$ beta-binomial random variables, $r_j \sim beta-binom(a, b, n_j), j = 1,\ldots,N$.  The *dbeta_binom_vec* nimbleFunction will need to loop over the elements and sum the log-likelihood contributions. You'll need `x = double(1)` because the random variable values will be a vector rather than a scalar. You can use `n <- length(x)` to determine the number of random variables.
+
+    - Now modify the marginalized version of the litters model to use this distribution and consider how it affects sampling speed compared to the original model. The nice thing about this is that it avoids the overhead of having a bunch of individual observation nodes in the model. However, a similar strategy of vectorizing the binomial distribution in the original model would not work as well because when sampling the p's individually, it would cause the entire likelihood to be calculated every time one 'p' is sampled.
+
+
+
+

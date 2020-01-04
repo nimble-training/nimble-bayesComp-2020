@@ -1,0 +1,19 @@
+---
+title: "Exercises: nimbleFunctions"
+subtitle: "BayesComp 2020 short course"
+author: "NIMBLE Development Team"
+output:
+  html_document:
+    code_folding: show
+---
+
+Please work on one of the following exercises.
+
+ 1. Write a user-defined sampler that modifies NIMBLE's default Metropolis (*sampler_RW()*) sampler to use a gamma proposal distribution and includes the ratio of the proposal distributions (the Hastings adjustment) for a non-symmetric proposal distribution. Have your proposal centered on the mean of the gamma distribution. When you call *rgamma* in the run function, you'll want to use the {mean, sd} alternative parameterization of the gamma distribution. You can get the `sampler_RW` from the file `MCMC_samplers.R`. 
+
+ 2. Write a user-defined sampler for a random variable distributed according to a categorical distribution for $\theta \in {1,2,\ldots,p}$. Have the sampler be an independence sampler where the proposal does not depend on the current state.  
+
+    - Alternatively, have the probabilities for each category in the proposal distribution be such that they are proportional to the current density of the model for each possible value of the categorical variable. (In other words include the likelihood and the prior.)  This is a conjugate sampler on a categorical variable. Solution: to see how this is done in NIMBLE see `sampler_categorical` in `MCMC_samplers.R`.
+
+ 3. If you prefer, keep working on what you were doing during the previous break-out session.
+
