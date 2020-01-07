@@ -218,9 +218,7 @@ summary {
 <pre class="r"><code>if(!exists('cLittersModel'))
    source('chunks_litters.R')</code></pre>
 <p>First we <em>configure</em> the MCMC, which means setting up the samplers to be used for each node or group of nodes. NIMBLE provides a default configuration, but we’ll see shortly how you can modify that.</p>
-<pre class="r"><code>if(!exists('cLittersModel'))
-   source('chunks_litters.R')
-littersConf &lt;- configureMCMC(littersModel, print = TRUE)</code></pre>
+<pre class="r"><code>littersConf &lt;- configureMCMC(littersModel, print = TRUE)</code></pre>
 <pre><code>## ===== Monitors =====
 ## thin = 1: a, b
 ## ===== Samplers =====
@@ -267,7 +265,7 @@ print(system.time(samples &lt;- runMCMC(cLittersMCMC, niter = niter, nburnin = n
 <pre><code>## |-------------|-------------|-------------|-------------|
 ## |-------------------------------------------------------|
 ##    user  system elapsed 
-##   0.157   0.000   0.157</code></pre>
+##   0.159   0.000   0.158</code></pre>
 </div>
 <div id="working-with-mcmc-output" class="section level1">
 <h1>Working with MCMC output</h1>

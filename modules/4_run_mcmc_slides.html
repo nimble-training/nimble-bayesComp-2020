@@ -77,9 +77,7 @@ NIMBLE Development Team
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span>(<span class="op">!</span><span class="kw">exists</span>(<span class="st">'cLittersModel'</span>))
    <span class="kw">source</span>(<span class="st">'chunks_litters.R'</span>)</code></pre></div>
 <p>First we <em>configure</em> the MCMC, which means setting up the samplers to be used for each node or group of nodes. NIMBLE provides a default configuration, but we'll see shortly how you can modify that.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span>(<span class="op">!</span><span class="kw">exists</span>(<span class="st">'cLittersModel'</span>))
-   <span class="kw">source</span>(<span class="st">'chunks_litters.R'</span>)
-littersConf &lt;-<span class="st"> </span><span class="kw">configureMCMC</span>(littersModel, <span class="dt">print =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">littersConf &lt;-<span class="st"> </span><span class="kw">configureMCMC</span>(littersModel, <span class="dt">print =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## ===== Monitors =====
 ## thin = 1: a, b
 ## ===== Samplers =====
@@ -126,7 +124,7 @@ inits &lt;-<span class="st"> </span><span class="cf">function</span>() {
 <pre><code>## |-------------|-------------|-------------|-------------|
 ## |-------------------------------------------------------|
 ##    user  system elapsed 
-##   0.201   0.000   0.200</code></pre>
+##   0.198   0.004   0.202</code></pre>
 </div>
 <div id="working-with-mcmc-output" class="slide section level1">
 <h1>Working with MCMC output</h1>
