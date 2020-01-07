@@ -46,11 +46,14 @@ However, we first need to modify the *setup* function to check if the distributi
 RW_reflect <- nimbleFunction(
     contains = sampler_BASE,
     setup = function(model, mvSaved, target, control) {
-        dist <- model$getDistribution(target)
+        ## Some checking...
         targetComponents <- model$expandNodeNames(target,
             returnScalarComponents = TRUE)
         if(length(targetComponents) > 1)
             stop("RW_reflect: cannot use univariate RW sampler on multivariate target, try RW_block sampler.")
+
+        ## Is the reflection sampler appropriate?
+        dist <- model$getDistribution(target)
         rg <- getDistributionInfo(dist)$range
         if(rg[[1]] > -Inf || rg[[2]] < Inf)
                   reflect <- TRUE else reflect <- FALSE
@@ -237,7 +240,7 @@ model <- nimbleModel(code, data = list(y = y),
                   constants = list(x = x, m = m, nsub = nsub),
                   inits = list(mu = 0, sigma = 0.5, tau = 0.5, b1 = 0))
 cModel  <- compileNimble(model)
-conf <- configureMCMC(cmodel)
+conf <- configureMCMC(cModel)
 MCMC  <- buildMCMC(conf)
 cMCMC  <- compileNimble(MCMC)
 smp1  <- runMCMC(cMCMC)

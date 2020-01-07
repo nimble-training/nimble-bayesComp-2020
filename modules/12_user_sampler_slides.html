@@ -79,11 +79,14 @@ NIMBLE Development Team
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">RW_reflect &lt;-<span class="st"> </span><span class="kw">nimbleFunction</span>(
     <span class="dt">contains =</span> sampler_BASE,
     <span class="dt">setup =</span> <span class="cf">function</span>(model, mvSaved, target, control) {
-        dist &lt;-<span class="st"> </span>model<span class="op">$</span><span class="kw">getDistribution</span>(target)
+        ## Some checking...
         targetComponents &lt;-<span class="st"> </span>model<span class="op">$</span><span class="kw">expandNodeNames</span>(target,
             <span class="dt">returnScalarComponents =</span> <span class="ot">TRUE</span>)
         <span class="cf">if</span>(<span class="kw">length</span>(targetComponents) <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>)
             <span class="kw">stop</span>(<span class="st">&quot;RW_reflect: cannot use univariate RW sampler on multivariate target, try RW_block sampler.&quot;</span>)
+
+        ## Is the reflection sampler appropriate?
+        dist &lt;-<span class="st"> </span>model<span class="op">$</span><span class="kw">getDistribution</span>(target)
         rg &lt;-<span class="st"> </span><span class="kw">getDistributionInfo</span>(dist)<span class="op">$</span>range
         <span class="cf">if</span>(rg[[<span class="dv">1</span>]] <span class="op">&gt;</span><span class="st"> </span><span class="op">-</span><span class="ot">Inf</span> <span class="op">||</span><span class="st"> </span>rg[[<span class="dv">2</span>]] <span class="op">&lt;</span><span class="st"> </span><span class="ot">Inf</span>)
                   reflect &lt;-<span class="st"> </span><span class="ot">TRUE</span> <span class="cf">else</span> reflect &lt;-<span class="st"> </span><span class="ot">FALSE</span>
@@ -257,15 +260,15 @@ model &lt;-<span class="st"> </span><span class="kw">nimbleModel</span>(code, <s
 <pre><code>## running calculate on model (any error reports that follow may simply reflect missing values in model variables) ... 
 ## checking model sizes and dimensions... This model is not fully initialized. This is not an error. To see which variables are not initialized, use model$initializeInfo(). For more information on model initialization, see help(modelInitialization).
 ## model building finished.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cmodel  &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(model)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cModel  &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(model)</code></pre></div>
 <pre><code>## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.
 ## compilation finished.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">conf &lt;-<span class="st"> </span><span class="kw">configureMCMC</span>(cmodel)
-mcmc  &lt;-<span class="st"> </span><span class="kw">buildMCMC</span>(conf)
-cmcmc  &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(mcmc)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">conf &lt;-<span class="st"> </span><span class="kw">configureMCMC</span>(cModel)
+MCMC  &lt;-<span class="st"> </span><span class="kw">buildMCMC</span>(conf)
+cMCMC  &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(MCMC)</code></pre></div>
 <pre><code>## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.
 ## compilation finished.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smp1  &lt;-<span class="st"> </span><span class="kw">runMCMC</span>(cmcmc)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smp1  &lt;-<span class="st"> </span><span class="kw">runMCMC</span>(cMCMC)</code></pre></div>
 <pre><code>## running chain 1...</code></pre>
 <pre><code>## |-------------|-------------|-------------|-------------|
 ## |-------------------------------------------------------|</code></pre>
@@ -280,12 +283,12 @@ cmcmc  &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(mcmc)
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">conf<span class="op">$</span><span class="kw">removeSamplers</span>(<span class="st">'tau'</span>)
 <span class="co"># for comparison, consider the reflection sampler</span>
 conf<span class="op">$</span><span class="kw">addSampler</span>(<span class="st">'tau'</span>, <span class="dt">type =</span> <span class="st">'RW_reflect'</span>)
-mcmc2 &lt;-<span class="st"> </span><span class="kw">buildMCMC</span>(conf)
-cmcmc2 &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(mcmc2, <span class="dt">resetFunctions =</span> <span class="ot">TRUE</span>)</code></pre></div>
+MCMC2 &lt;-<span class="st"> </span><span class="kw">buildMCMC</span>(conf)
+cMCMC2 &lt;-<span class="st"> </span><span class="kw">compileNimble</span>(MCMC2, <span class="dt">resetFunctions =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## compiling... this may take a minute. Use 'showCompilerOutput = TRUE' to see C++ compilation details.</code></pre>
 <pre><code>## compilation finished.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nimCopy</span>(model, cmodel)  <span class="co"># initialize 2nd MCMC same as 1st MCMC</span>
-smp2 &lt;-<span class="st"> </span><span class="kw">runMCMC</span>(cmcmc2)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nimCopy</span>(model, cModel)  <span class="co"># initialize 2nd MCMC same as 1st MCMC</span>
+smp2 &lt;-<span class="st"> </span><span class="kw">runMCMC</span>(cMCMC2)</code></pre></div>
 <pre><code>## running chain 1...</code></pre>
 <pre><code>## |-------------|-------------|-------------|-------------|
 ## |-------------------------------------------------------|</code></pre>
