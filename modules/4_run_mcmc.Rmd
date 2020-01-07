@@ -46,8 +46,6 @@ if(!exists('cLittersModel'))
 First we *configure* the MCMC, which means setting up the samplers to be used for each node or group of nodes. NIMBLE provides a default configuration, but we'll see shortly how you can modify that. 
 
 ```{r, configureMCMC}
-if(!exists('cLittersModel'))
-   source('chunks_litters.R')
 littersConf <- configureMCMC(littersModel, print = TRUE)
 ```
 You also specify the nodes for which you'd like to get the MCMC samples as output. (NIMBLE defaults to only monitoring the "top-level" nodes, i.e., hyperparameters with no stochastic parents.

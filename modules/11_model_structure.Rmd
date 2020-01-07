@@ -142,6 +142,8 @@ m1 <- nimbleModel(
         tau ~ dunif(0, 100)
         x ~ dnorm(0, tau) #by default, tau is a precision
     }))
+par(mfrow = c(1,1
+              ))
 plot(m1$getGraph())
 m1$getNodeNames()
 ```
