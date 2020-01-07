@@ -13,7 +13,6 @@ output:
 # e.g. package and dataset loading
 library(methods)  # otherwise new() not being found
 library(nimble)
-read_chunk('chunks_litters_marginal.R')
 ```
 
 # Introduction
@@ -126,7 +125,7 @@ Let's look back at our nimbleFunction objective function. What stops it from bei
 ```{r, nf-generic}
 objective <- nimbleFunction(
     setup = function(model, target) {
-          ## we'll start putting stuff here soon, I promise!
+          ## We'll start putting stuff here soon, I promise!
           },
     run = function(par = double(1)) {
         returnType(double(0))

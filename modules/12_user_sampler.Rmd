@@ -236,11 +236,11 @@ code  <- nimbleCode({
 model <- nimbleModel(code, data = list(y = y),
                   constants = list(x = x, m = m, nsub = nsub),
                   inits = list(mu = 0, sigma = 0.5, tau = 0.5, b1 = 0))
-cmodel  <- compileNimble(model)
+cModel  <- compileNimble(model)
 conf <- configureMCMC(cmodel)
-mcmc  <- buildMCMC(conf)
-cmcmc  <- compileNimble(mcmc)
-smp1  <- runMCMC(cmcmc)
+MCMC  <- buildMCMC(conf)
+cMCMC  <- compileNimble(MCMC)
+smp1  <- runMCMC(cMCMC)
 par(mfrow = c(1,2))
 ts.plot(smp1[ , 'tau'], ylab = 'tau')
 ts.plot(smp1[ , 'mu'], ylab = 'mu')
@@ -259,11 +259,11 @@ in the way we've seen before.
 conf$removeSamplers('tau')
 # for comparison, consider the reflection sampler
 conf$addSampler('tau', type = 'RW_reflect')
-mcmc2 <- buildMCMC(conf)
-cmcmc2 <- compileNimble(mcmc2, resetFunctions = TRUE)
+MCMC2 <- buildMCMC(conf)
+cMCMC2 <- compileNimble(MCMC2, resetFunctions = TRUE)
 
-nimCopy(model, cmodel)  # initialize 2nd MCMC same as 1st MCMC
-smp2 <- runMCMC(cmcmc2)
+nimCopy(model, cModel)  # initialize 2nd MCMC same as 1st MCMC
+smp2 <- runMCMC(cMCMC2)
 par(mfrow = c(1,2))
 ts.plot(smp2[ , 'tau'], ylab = 'tau')
 ts.plot(smp2[ , 'mu'], ylab = 'mu')
