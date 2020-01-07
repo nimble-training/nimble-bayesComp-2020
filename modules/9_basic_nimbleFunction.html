@@ -276,11 +276,11 @@ cObjective &lt;- compileNimble(rObjective, project = littersMargModel)</code></p
 <pre class="r"><code>system.time(optR &lt;- optim(log(rep(1,4)), rObjective$run,
                  control = list(fnscale = -1)))</code></pre>
 <pre><code>##    user  system elapsed 
-##   3.362   0.000   3.363</code></pre>
+##   3.373   0.000   3.373</code></pre>
 <pre class="r"><code>system.time(optC &lt;- optim(log(rep(1,4)), cObjective$run,
                  control = list(fnscale = -1)))</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.012   0.000   0.012</code></pre>
+##   0.011   0.000   0.011</code></pre>
 <pre class="r"><code>optR</code></pre>
 <pre><code>## $par
 ## [1]  3.5802268  0.4638447  1.4091323 -0.5817455
@@ -321,7 +321,7 @@ cObjective &lt;- compileNimble(rObjective, project = littersMargModel)</code></p
 <p>Let’s look back at our nimbleFunction objective function. What stops it from being usable on any model?</p>
 <pre class="r"><code>objective &lt;- nimbleFunction(
     setup = function(model, target) {
-          ## we'll start putting stuff here soon, I promise!
+          ## We'll start putting stuff here soon, I promise!
           },
     run = function(par = double(1)) {
         returnType(double(0))
